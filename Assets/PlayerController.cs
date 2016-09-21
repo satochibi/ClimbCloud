@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -17,8 +18,16 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		//画面外
+		if (transform.position.y < -10)
+		{
+			SceneManager.LoadScene("GameScene");
+		}
+
+
 		//jump
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Space) && (this.rigid2D.velocity.y == 0))
 		{
 			this.rigid2D.AddForce(transform.up * this.jumpForce);
 		}
@@ -46,5 +55,16 @@ public class PlayerController : MonoBehaviour {
 		//プレイヤの速度に応じてアニメーション速度を変える
 		this.animator.speed = speedx / 2.0f;
 
+
+
+
+	}
+
+
+
+	//ゴール到達
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		SceneManager.LoadScene("ClearScene");
 	}
 }

@@ -20,16 +20,12 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//画面外
-		if (transform.position.y < -10)
-		{
-			SceneManager.LoadScene("GameScene");
-		}
-
+		
 
 		//jump
 		if (Input.GetMouseButtonDown(0) && (this.rigid2D.velocity.y == 0))
 		{
+			this.animator.SetTrigger("JumpTrigger");
 			this.rigid2D.AddForce(transform.up * this.jumpForce);
 		}
 
@@ -54,8 +50,20 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//プレイヤの速度に応じてアニメーション速度を変える
-		this.animator.speed = speedx / 2.0f;
+		if (this.rigid2D.velocity.y == 0)
+		{
+			this.animator.speed = speedx / 2.0f;
+		}
+		else
+		{
+			this.animator.speed = 1.0f;
+		}
 
+		//画面外
+		if (transform.position.y < -10)
+		{
+			SceneManager.LoadScene("GameScene");
+		}
 
 
 
